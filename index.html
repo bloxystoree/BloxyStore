@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloxyStore | Robux en Colombia</title>
+    <style>
+        :root {
+            --bg-color: #000000;
+            --card-bg: #111111;
+            --border-color: #333333;
+            --text-main: #FFFFFF;
+            --text-muted: #888888;
+            --success-color: #22c55e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            padding-bottom: 150px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
+
+        .logo-placeholder {
+            width: 90px;
+            height: 90px;
+            border: 2px solid var(--text-main);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            margin: 0 auto 12px auto;
+            background-color: var(--card-bg);
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* SECCIÓN DE USUARIO DE ROBLOX */
+        .roblox-user-box {
+            width: 100%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .roblox-label {
+            font-size: 12px;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        .roblox-input {
+            width: 100%;
+            background-color: #000000;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-main);
+            padding: 10px 12px;
+            font-size: 14px;
+        }
+
+        .roblox-input:focus {
+            border-color: var(--text-main);
+            outline: none;
+        }
+
+        .section-title {
+            width: 100%;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .menu-grid {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            transition: border-color 0.2s;
+        }
+
+        .card.featured {
+            border: 2px solid var(--text-main);
+            background: linear-gradient(135deg, #111111 0%, #222222 100%);
+        }
+
+        .badge {
+            position: absolute;
+            top: -10px;
+            left: 16px;
+            background-color: var(--text-main);
+            color: var(--bg-color);
+            font-size: 9px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .robux-amount {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .price {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .counter-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #000000;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 4px 8px;
+        }
+
+        .btn-ctrl {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .btn-ctrl:hover {
+            background-color: #222;
+        }
+
+        .quantity {
+            font-size: 14px;
+            font-weight: bold;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        /* BARRA FLOTANTE */
+        .cart-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #111111;
+            border-top: 1px solid var(--border-color);
+            padding: 14px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.8);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: 100;
+        }
+
+        .cart-bar.visible {
+            transform: translateY(0);
+        }
+
+        .cart-main-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .cart-info-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-total-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .cart-total-price {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .cart-total-price.has-discount {
+            color: var(--success-color);
+        }
+
+        .old-price {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-decoration: line-through;
+            margin-right: 6px;
+        }
+
+        .btn-checkout {
+            background-color: var(--text-main);
+            color: var(--bg-color);
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 13px;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .coupon-section {
+            display: flex;
+            gap: 6px;
+            width: 100%;
+            border-top: 1px solid #222;
+            padding-top: 10px;
+        }
+
+        .coupon-input {
+            flex: 1;
+            background-color: #000;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-main);
+            padding: 6px 10px;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .coupon-input::placeholder {
+            text-transform: none;
+            color: var(--text-muted);
+        }
+
+        .btn-apply {
+            background-color: #222;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-apply:hover {
+            background-color: #333;
+        }
+
+        .coupon-message {
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        .coupon-message.success { color: var(--success-color); }
+        .coupon-message.error { color: #ef4444; }
+
+        footer {
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- ENCABEZADO -->
+        <header>
+            <div class="logo-placeholder">R</div>
+            <h1>BLOXYSTORE</h1>
+            <div class="subtitle">Robux en Colombia • Rápido y Seguro</div>
+        </header>
+
+        <!-- CAJA PARA INGRESAR USUARIO DE ROBLOX -->
+        <div class="roblox-user-box">
+            <label class="roblox-label" for="robloxUsername">Tu Usuario de Roblox:</label>
+            <input type="text" id="robloxUsername" class="roblox-input" placeholder="Ej: JuanRoblox2026" oninput="updateCart()">
+        </div>
+
+        <!-- MENÚ DE PRECIOS -->
+        <div class="section-title">Selecciona tus Paquetes</div>
+        
+        <div class="menu-grid" id="product-list">
+            <!-- Items generados por JS -->
+        </div>
+
+        <footer>
+            Pagos seguros vía Nequi y Daviplata.<br>
+            © 2026 BloxyStore. Todos los derechos reservados.
+        </footer>
+    </div>
+
+    <!-- BARRA FLOTANTE -->
+    <div class="cart-bar" id="cartBar">
+        <div class="cart-main-row">
+            <div class="cart-info-text">
+                <span class="cart-total-label" id="cartSummaryText">0 Robux seleccionados</span>
+                <div>
+                    <span id="priceContainer">
+                        <span class="cart-total-price" id="cartTotalPrice">$0 COP</span>
+                    </span>
+                </div>
+            </div>
+            <a href="#" id="whatsappCheckoutBtn" class="btn-checkout" onclick="handleCheckout(event)" target="_blank">Pedir por WhatsApp</a>
+        </div>
+        
+        <!-- Input de Cupón -->
+        <div class="coupon-section">
+            <input type="text" id="couponInput" class="coupon-input" placeholder="¿Tienes un cupón?">
+            <button class="btn-apply" onclick="applyCoupon()">Aplicar</button>
+        </div>
+        <div class="coupon-message" id="couponMessage"></div>
+    </div>
+
+    <script>
+        const products = [
+            { id: 1, robux: 100, price: 3800, name: "100 Robux" },
+            { id: 2, robux: 150, price: 5600, name: "150 Robux" },
+            { id: 3, robux: 200, price: 7500, name: "200 Robux" },
+            { id: 4, robux: 300, price: 11300, name: "300 Robux" },
+            { id: 5, robux: 400, price: 15000, name: "400 Robux" },
+            { id: 6, robux: 500, price: 18800, name: "500 Robux" },
+            { id: 7, robux: 600, price: 22500, name: "600 Robux" },
+            { id: 8, robux: 800, price: 30000, name: "800 Robux", featured: true },
+            { id: 9, robux: 1000, price: 37500, name: "1.000 Robux" }
+        ];
+
+        const validCoupons = {
+            "BLOXYSTOREOFFERT": 0.10,
+            "JSRSxNJRM": 0.10,
+            "071025": 0.10
+        };
+
+        let activeDiscount = 0;
+        let appliedCouponCode = "";
+
+        const quantities = {};
+        products.forEach(p => quantities[p.id] = 0);
+
+        const productListEl = document.getElementById('product-list');
+        const cartBar = document.getElementById('cartBar');
+        const cartSummaryText = document.getElementById('cartSummaryText');
+        const priceContainer = document.getElementById('priceContainer');
+        const whatsappCheckoutBtn = document.getElementById('whatsappCheckoutBtn');
+        const couponInput = document.getElementById('couponInput');
+        const couponMessage = document.getElementById('couponMessage');
+        const robloxUsernameInput = document.getElementById('robloxUsername');
+
+        function renderProducts() {
+            productListEl.innerHTML = '';
+            products.forEach(p => {
+                const card = document.createElement('div');
+                card.className = `card ${p.featured ? 'featured' : ''}`;
+                
+                let badgeHtml = p.featured ? '<div class="badge">Oferta Estrella</div>' : '';
+                
+                card.innerHTML = `
+                    ${badgeHtml}
+                    <div class="card-info">
+                        <div class="robux-amount">${p.name}</div>
+                        <div class="price">$${p.price.toLocaleString()} COP</div>
+                    </div>
+                    <div class="counter-controls">
+                        <button class="btn-ctrl" onclick="updateQty(${p.id}, -1)">-</button>
+                        <span class="quantity" id="qty-${p.id}">${quantities[p.id]}</span>
+                        <button class="btn-ctrl" onclick="updateQty(${p.id}, 1)">+</button>
+                    </div>
+                `;
+                productListEl.appendChild(card);
+            });
+        }
+
+        function updateQty(id, change) {
+            if (quantities[id] + change >= 0) {
+                quantities[id] += change;
+                document.getElementById(`qty-${id}`).innerText = quantities[id];
+                updateCart();
+            }
+        }
+
+        function applyCoupon() {
+            const code = couponInput.value.trim().toUpperCase();
+            
+            if (localStorage.getItem('used_coupon_' + code)) {
+                activeDiscount = 0;
+                appliedCouponCode = "";
+                couponMessage.innerText = "Este cupón ya ha sido utilizado en este dispositivo.";
+                couponMessage.className = "coupon-message error";
+                updateCart();
+                return;
+            }
+
+            if (validCoupons[code] !== undefined) {
+                activeDiscount = validCoupons[code];
+                appliedCouponCode = code;
+                couponMessage.innerText = `¡Cupón ${code} aplicado (10% de descuento)!`;
+                couponMessage.className = "coupon-message success";
+                updateCart();
+            } else {
+                activeDiscount = 0;
+                appliedCouponCode = "";
+                couponMessage.innerText = "Cupón inválido o expirado.";
+                couponMessage.className = "coupon-message error";
+                updateCart();
+            }
+        }
+
+        function handleCheckout(e) {
+            // Actualiza el enlace justo en el momento del clic asegurando que tome el nombre escrito
+            updateCart();
+
+            const username = robloxUsernameInput.value.trim();
+            if (!username) {
+                e.preventDefault();
+                alert("Por favor, ingresa tu usuario de Roblox antes de continuar.");
+                robloxUsernameInput.focus();
+                return;
+            }
+
+            if (appliedCouponCode) {
+                localStorage.setItem('used_coupon_' + appliedCouponCode, 'true');
+            }
+        }
+
+        function updateCart() {
+            let totalRobux = 0;
+            let originalTotalPrice = 0;
+            let messageItems = [];
+
+            products.forEach(p => {
+                const qty = quantities[p.id];
+                if (qty > 0) {
+                    totalRobux += p.robux * qty;
+                    originalTotalPrice += p.price * qty;
+                    messageItems.push(`${qty}x ${p.name}`);
+                }
+            });
+
+            if (originalTotalPrice > 0) {
+                cartBar.classList.add('visible');
+                cartSummaryText.innerText = `${totalRobux.toLocaleString()} Robux en total`;
+
+                let finalPrice = originalTotalPrice;
+                if (activeDiscount > 0) {
+                    finalPrice = Math.round(originalTotalPrice * (1 - activeDiscount));
+                    priceContainer.innerHTML = `
+                        <span class="old-price">$${originalTotalPrice.toLocaleString()} COP</span>
+                        <span class="cart-total-price has-discount">$${finalPrice.toLocaleString()} COP</span>
+                    `;
+                } else {
+                    priceContainer.innerHTML = `<span class="cart-total-price" id="cartTotalPrice">$${originalTotalPrice.toLocaleString()} COP</span>`;
+                }
+
+                const phone = "573112290285"; 
+                const username = robloxUsernameInput.value.trim() || "(No especificado)";
+                
+                let msgText = `Hola, quiero hacer el siguiente pedido:\n`;
+                msgText += `👤 Usuario de Roblox: ${username}\n\n`;
+                msgText += `📦 Paquetes:\n- ${messageItems.join('\n- ')}`;
+                
+                if (activeDiscount > 0) {
+                    msgText += `\n\nCupón aplicado: ${appliedCouponCode} (10%)`;
+                    msgText += `\nTotal con descuento: $${finalPrice.toLocaleString()} COP`;
+                } else {
+                    msgText += `\n\nTotal a pagar: $${originalTotalPrice.toLocaleString()} COP`;
+                }
+
+                whatsappCheckoutBtn.href = `https://wa.me/${phone}?text=${encodeURIComponent(msgText)}`;
+            } else {
+                cartBar.classList.remove('visible');
+                activeDiscount = 0;
+                appliedCouponCode = "";
+                couponInput.value = "";
+                couponMessage.innerText = "";
+            }
+        }
+
+        renderProducts();
+    </script>
+</body>
+</html>
